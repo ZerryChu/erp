@@ -78,66 +78,6 @@
 			              ] ],toolbar:'#tb'
 		});
 		
-		$("#classId").combobox({
-			width:171,
-			url:"systemCode/systemCodeAction!findSystemCodeByType.action?codeMyid=customerClass",
-			valueField: 'codeId',
-			textField: 'name',
-			onSelect:function(value){
-				$("#className").val(value.name);
-			}
-		});
-		
-		$("#levelId").combobox({
-			width:171,
-			url:"systemCode/systemCodeAction!findSystemCodeByType.action?codeMyid=customerLevel",
-			valueField: 'codeId',
-			textField: 'name',
-			onSelect:function(value){
-				$("#levelName").val(value.name);
-			}
-		});
-		
-		$("#industryId").combobox({
-			width:171,
-			url:"systemCode/systemCodeAction!findSystemCodeByType.action?codeMyid=industry",
-			valueField: 'codeId',
-			textField: 'name',
-			onSelect:function(value){
-				$("#industryName").val(value.name);
-			}
-		});
-		
-		$("#sizeId").combobox({
-			width:171,
-			url:"systemCode/systemCodeAction!findSystemCodeByType.action?codeMyid=companySize",
-			valueField: 'codeId',
-			textField: 'name',
-			onSelect:function(value){
-				$("#sizeName").val(value.name);
-			}
-		});
-		
-		$("#creditId").combobox({
-			width:171,
-			url:"systemCode/systemCodeAction!findSystemCodeByType.action?codeMyid=credit",
-			valueField: 'codeId',
-			textField: 'name',
-			onSelect:function(value){
-				$("#creditName").val(value.name);
-			}
-		});
-		
-		$("#natureId").combobox({
-			width:171,
-			url:"systemCode/systemCodeAction!findSystemCodeByType.action?codeMyid=customerNature",
-			valueField: 'codeId',
-			textField: 'name',
-			onSelect:function(value){
-				$("#natureName").val(value.name);
-			}
-		});
-		
 		$("#currencyId").combobox({
 			width:171,
 			url:"currency/currencyAction!findCurrencyList.action",

@@ -22,57 +22,49 @@ import com.palmelf.erp.viewModel.UserRoleModel;
 
 @Service("userService")
 @SuppressWarnings("rawtypes")
-public class UserServiceImpl implements UserService
-{
+public class UserServiceImpl implements UserService {
 	private PublicDao<Users> publicDao;
 	private PublicDao publicDaoSQL;
-	
+
 	@Autowired
-	public void setPublicDao(PublicDao<Users> publicDao )
-	{
+	public void setPublicDao(PublicDao<Users> publicDao) {
 		this.publicDao = publicDao;
 	}
+
 	@Autowired
-	public void setPublicDaoSQL(PublicDao publicDaoSQL )
-	{
+	public void setPublicDaoSQL(PublicDao publicDaoSQL) {
 		this.publicDaoSQL = publicDaoSQL;
 	}
-	public boolean persistenceUsers(Map<String, List<Users>> map)
-	{
+
+	public boolean persistenceUsers(Map<String, List<Users>> map) {
 		this.addUsers(map.get("addList"));
 		this.updUsers(map.get("updList"));
 		this.delUsers(map.get("delList"));
 		return true;
 	}
-	
-	public List<Users> findAllUserList(Map<String, Object> map,PageUtil pageUtil)
-	{
-		String hql="from Users u where u.status='A' ";
-		hql+=Constants.getSearchConditionsHQL("u", map);
-		hql+=Constants.getGradeSearchConditionsHQL("u", pageUtil);
+
+	public List<Users> findAllUserList(Map<String, Object> map, PageUtil pageUtil) {
+		String hql = "from Users u where u.status='A' ";
+		hql += Constants.getSearchConditionsHQL("u", map);
+		hql += Constants.getGradeSearchConditionsHQL("u", pageUtil);
 		List<Users> list = publicDao.find(hql, map, pageUtil.getPage(), pageUtil.getRows());
-		for (Users users : list)
-		{
+		for (Users users : list) {
 			users.setUserRoles(null);
 		}
 		return list;
 	}
-	
-	public Long getCount(Map<String, Object> map,PageUtil pageUtil)
-	{
-		String hql="select count(*) from Users  u where u.status='A' ";
-		hql+=Constants.getSearchConditionsHQL("u", map);
-		hql+=Constants.getGradeSearchConditionsHQL("u", pageUtil);
+
+	public Long getCount(Map<String, Object> map, PageUtil pageUtil) {
+		String hql = "select count(*) from Users u where u.status='A' ";
+		hql += Constants.getSearchConditionsHQL("u", map);
+		hql += Constants.getGradeSearchConditionsHQL("u", pageUtil);
 		return publicDao.count(hql, map);
 	}
-	
-	private boolean addUsers(List<Users> addList)
-	{
-		if (addList!=null&&addList.size()!=0)
-		{
+
+	private boolean addUsers(List<Users> addList) {
+		if (addList != null && addList.size() != 0) {
 			ShiroUser user = Constants.getCurrendUser();
-			for (Users users : addList)
-			{
+			for (Users users : addList) {
 				users.setCreated(new Date());
 				users.setLastmod(new Date());
 				users.setLastVisits(new Date());
@@ -84,14 +76,11 @@ public class UserServiceImpl implements UserService
 		}
 		return true;
 	}
-	
-	private boolean updUsers(List<Users> updList)
-	{	
-		if (updList!=null&&updList.size()!=0)
-		{
+
+	private boolean updUsers(List<Users> updList) {
+		if (updList != null && updList.size() != 0) {
 			ShiroUser user = Constants.getCurrendUser();
-			for (Users users : updList)
-			{
+			for (Users users : updList) {
 				users.setLastmod(new Date());
 				users.setModifyer(user.getUserId());
 				publicDao.update(users);
@@ -99,14 +88,11 @@ public class UserServiceImpl implements UserService
 		}
 		return true;
 	}
-	
-	private boolean delUsers(List<Users> delList)
-	{
+
+	private boolean delUsers(List<Users> delList) {
 		ShiroUser user = Constants.getCurrendUser();
-		if (delList!=null&&delList.size()!=0)
-		{
-			for (Users users : delList)
-			{
+		if (delList != null && delList.size() != 0) {
+			for (Users users : delList) {
 				users.setLastmod(new Date());
 				users.setStatus(Constants.PERSISTENCE_DELETE_STATUS);
 				users.setModifyer(user.getUserId());
@@ -115,27 +101,25 @@ public class UserServiceImpl implements UserService
 		}
 		return true;
 	}
-	
-	public boolean persistenceUsers(Users u ) {
+
+	public boolean persistenceUsers(Users u) {
 		Integer userId = Constants.getCurrendUser().getUserId();
-		if (null==u.getUserId()||"".equals(u.getUserId()))
-		{
+		if (null == u.getUserId() || "".equals(u.getUserId())) {
 			u.setCreated(new Date());
 			u.setLastmod(new Date());
 			u.setCreater(userId);
 			u.setModifyer(userId);
 			u.setStatus(Constants.PERSISTENCE_STATUS);
 			publicDao.save(u);
-		}else {
+		} else {
 			u.setLastmod(new Date());
 			u.setModifyer(userId);
 			publicDao.update(u);
 		}
 		return true;
 	}
-	
-	public boolean delUsers(Integer userId)
-	{
+
+	public boolean delUsers(Integer userId) {
 		Users users = publicDao.get(Users.class, userId);
 		users.setStatus(Constants.PERSISTENCE_DELETE_STATUS);
 		users.setLastmod(new Date());
@@ -143,61 +127,55 @@ public class UserServiceImpl implements UserService
 		publicDao.deleteToUpdate(users);
 		return true;
 	}
-	
-	public List<UserRoleModel> findUsersRolesList(Integer userId)
-	{
-		String sql="SELECT ur.USER_ID,ur.ROLE_ID FROM\n" +
-				"USER_ROLE AS ur where ur.STATUS ='A' and ur.USER_ID="+userId;
+
+	public List<UserRoleModel> findUsersRolesList(Integer userId) {
+		String sql = "SELECT ur.USER_ID,ur.ROLE_ID FROM\n" + "USER_ROLE AS ur where ur.STATUS ='A' and ur.USER_ID="
+				+ userId;
 		List list = publicDaoSQL.findBySQL(sql);
 		List<UserRoleModel> listm = getUserRoleModelList(userId, list);
 		return listm;
 	}
-	
-	private List<UserRoleModel> getUserRoleModelList(Integer userId, List list )
-	{
-		List<UserRoleModel> listm=new ArrayList<UserRoleModel>();
-		for (Object object : list)
-		{
-			Object[] obj=(Object[])object;
-			UserRoleModel userRoleModel=new UserRoleModel();
+
+	private List<UserRoleModel> getUserRoleModelList(Integer userId, List list) {
+		List<UserRoleModel> listm = new ArrayList<UserRoleModel>();
+		for (Object object : list) {
+			Object[] obj = (Object[]) object;
+			UserRoleModel userRoleModel = new UserRoleModel();
 			userRoleModel.setUserId(userId);
-			userRoleModel.setRoleId(obj[1]==null?null:Integer.valueOf(obj[1].toString()));
+			userRoleModel.setRoleId(obj[1] == null ? null : Integer.valueOf(obj[1].toString()));
 			listm.add(userRoleModel);
 		}
 		return listm;
 	}
-	
+
+	// isCheckedIds: id, id, id...
 	@SuppressWarnings("unchecked")
-	public boolean saveUserRoles(Integer userId,String isCheckedIds)
-	{ 
+	public boolean saveUserRoles(Integer userId, String isCheckedIds) {
 		Users user = publicDao.get(Users.class, userId);
 		Set<UserRole> set = user.getUserRoles();
-		Map<Integer, UserRole> map=new HashMap<Integer, UserRole>(); 
-		for (UserRole userRole : set)
-		{
+		Map<Integer, UserRole> map = new HashMap<Integer, UserRole>();
+		// 删除用户原角色（status设为I）
+		for (UserRole userRole : set) {
 			map.put(userRole.getRole().getRoleId(), userRole);
 			userRole.setLastmod(new Date());
 			userRole.setStatus(Constants.PERSISTENCE_DELETE_STATUS);
 			publicDaoSQL.deleteToUpdate(userRole);
 		}
-		if (!"".equals(isCheckedIds)&&isCheckedIds.length()!=0)
-		{
-			String[] ids=isCheckedIds.split(",");
+		if (!"".equals(isCheckedIds) && isCheckedIds.length() != 0) {
+			String[] ids = isCheckedIds.split(",");
 			ShiroUser currUser = Constants.getCurrendUser();
-			for (String id : ids)
-			{
-			    Integer tempId = Integer.valueOf(id);
-				Role role = (Role)publicDaoSQL.get(Role.class, Integer.valueOf(id));
-				UserRole userRole=null;
-				if (map.containsKey(tempId))
-				{
-					userRole=map.get(tempId);
+			for (String id : ids) {
+				Integer tempId = Integer.valueOf(id);
+				Role role = (Role) publicDaoSQL.get(Role.class, Integer.valueOf(id));
+				UserRole userRole = null;
+				if (map.containsKey(tempId)) {
+					userRole = map.get(tempId);
 					userRole.setStatus(Constants.PERSISTENCE_STATUS);
 					userRole.setCreater(currUser.getUserId());
 					userRole.setModifyer(currUser.getUserId());
 					publicDaoSQL.update(userRole);
-				}else {
-					userRole=new UserRole();
+				} else {
+					userRole = new UserRole();
 					userRole.setCreated(new Date());
 					userRole.setLastmod(new Date());
 					userRole.setRole(role);

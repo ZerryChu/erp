@@ -14,7 +14,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
 	<jsp:include page="../../layout/script.jsp"></jsp:include>
 	<script type="text/javascript">
 			var $dg;
@@ -32,13 +31,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					singleSelect:true,
 					columns : [ [ {field : 'name',title : '客户名称',width : parseInt($(this).width()*0.1)},
 					              {field : 'myid',title : '客户编码',width : parseInt($(this).width()*0.1)},
-					              {field : 'customerStatus',title : '客户状态',width : parseInt($(this).width()*0.1), 
+					              /*{field : 'customerStatus',title : '客户状态',width : parseInt($(this).width()*0.1), 
 					            	  formatter:function(value,row){
 				            		  if("T"==row.customerStatus)
 											return "<font color=green>交易中<font>";
 					            		  else
 					            			return "<font color=red>禁用<font>";  
-									}},
+									}},*/
 					              {field : 'tel',title : '电话',width : parseInt($(this).width()*0.1),align : 'left'},
 					              {hidden : 'cityId',title : '城市',width : parseInt($(this).width()*0.1),align : 'left',
 					            	  formatter:function(value,row){

@@ -233,7 +233,7 @@ public class PermissionAssignmentServiceImpl extends BaseServiceImpl implements
 		return true;
 	}
 
-	public boolean persistenceRole(Integer roleId) {
+	public boolean _persistenceRole(Integer roleId) {
 		Integer userId = Constants.getCurrendUser().getUserId();
 		Role role = (Role) publicDao.get(Role.class, roleId);
 		role.setLastmod(new Date());

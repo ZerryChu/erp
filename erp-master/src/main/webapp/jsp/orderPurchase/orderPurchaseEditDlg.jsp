@@ -117,35 +117,6 @@
 			    }
 			   
 			}); 
-		$("#classId").combobox({
-			width:171,
-			url:"systemCode/systemCodeAction!findSystemCodeByType.action?codeMyid=purchaseClass",
-			valueField: 'codeId',
-			textField: 'name',
-			onSelect:function(value){
-				$("#className").val(value.name);
-			}
-		});
-		
-		$("#deliveryMode").combobox({
-			width:171,
-			url:"systemCode/systemCodeAction!findSystemCodeByType.action?codeMyid=deliveryMode",
-			valueField: 'codeId',
-			textField: 'name',
-			onSelect:function(value){
-				$("#deliveryModeName").val(value.name);
-			}
-		});
-		
-		$("#projectId").combobox({
-			width:171,
-			url:"project/projectAction!findProjectListCombobox.action",
-			valueField: 'projectId',
-			textField: 'name',
-			onSelect:function(value){
-				$("#projectName").val(value.name);
-			}
-		});
 		
 		$("#warehouseId").combobox({
 			width:171,
@@ -256,9 +227,9 @@
 								var ed = $dg.datagrid('getEditor', {index:index+1,field:'myid'});
 								$(ed.target).focus();
 								var editemName = $dg.datagrid('getEditor', {index:index+1,field:'itemName'});
-								$(editemName.target).attr('disabled',true);
+								$(editemName.target).attr('disabled',false);
 								var edunit = $dg.datagrid('getEditor', {index:index+1,field:'unit'});
-								$(edunit.target).attr('disabled',true);
+								$(edunit.target).attr('disabled',false);
 								var edamount = $dg.datagrid('getEditor', {index:index+1,field:'amount'});
 								$(edamount.target).attr('disabled',true);
 								var edtaxAmount = $dg.datagrid('getEditor', {index:index+1,field:'taxAmount'});
@@ -386,7 +357,8 @@
 			}
 	  });
 	});
-	//结束编辑
+	
+	//结束编辑、计算价格和税后价格
 	function endEdit(){
 		var amount=0;
 		var taxAmount=0;
@@ -405,7 +377,7 @@
 				var edtaxNoValue=$(edtaxNo.target).numberbox("getValue");
 				if(eddiscountNoValue==0){
 					 var v1=parseFloat((edpriceValue*edorderQtyValue).toFixed(2));
-					 var v2=parseFloat((edpriceValue*edorderQtyValue*(parseFloat(edtaxNoValue*0.01))).toFixed(2)); 
+					 var v2=parseFloat((edpriceValue*edorderQtyValue*(parseFloat(edtaxNoValue*0.01))).toFixed(2)); // 保留两位小数
 					 //amount+= v1;
 					// taxAmount+=v2;
 					 var edamount = $dg.datagrid('getEditor', {index:i,field:'amount'});
@@ -413,8 +385,9 @@
 					 var edtaxAmount = $dg.datagrid('getEditor', {index:i,field:'taxAmount'});
 					 $(edtaxAmount.target).numberbox("setValue", v2);
 				 }else{
+					 // 有折扣
 					 var v3=parseFloat((edpriceValue*edorderQtyValue*(parseFloat(eddiscountNoValue))).toFixed(2));
-					 var v4=parseFloat((parseFloat(eddiscountNoValue)*edpriceValue*edorderQtyValue*(parseFloat(edtaxNoValue*0.01))).toFixed(2));
+					 var v4=parseFloat((edpriceValue*edorderQtyValue*parseFloat(eddiscountNoValue)*(parseFloat(edtaxNoValue*0.01))).toFixed(2));
 					 //amount+= v3;
 					 //taxAmount+=v4;
 					 var edamount = $dg.datagrid('getEditor', {index:i,field:'amount'});
@@ -468,9 +441,9 @@
 				$(ed.target).focus();
 				
 				var editemName = $dg.datagrid('getEditor', {index:ll-1,field:'itemName'});
-				$(editemName.target).attr('disabled',true);
+				$(editemName.target).attr('disabled',false);
 				var edunit = $dg.datagrid('getEditor', {index:ll-1,field:'unit'});
-				$(edunit.target).attr('disabled',true);
+				$(edunit.target).attr('disabled',false);
 				var edamount = $dg.datagrid('getEditor', {index:ll-1,field:'amount'});
 				$(edamount.target).attr('disabled',true);
 				var edtaxAmount = $dg.datagrid('getEditor', {index:ll-1,field:'taxAmount'});
@@ -492,9 +465,9 @@
 				var index = $dg.datagrid('getRowIndex', row);
 				$dg.datagrid('beginEdit', index);
 				var editemName = $dg.datagrid('getEditor', {index:index,field:'itemName'});
-				$(editemName.target).attr('disabled',true);
+				$(editemName.target).attr('disabled',false);
 				var edunit = $dg.datagrid('getEditor', {index:index,field:'unit'});
-				$(edunit.target).attr('disabled',true);
+				$(edunit.target).attr('disabled',false);
 				var edamount = $dg.datagrid('getEditor', {index:index,field:'amount'});
 				$(edamount.target).attr('disabled',true);
 				var edtaxAmount = $dg.datagrid('getEditor', {index:index,field:'taxAmount'});
@@ -686,8 +659,8 @@
 									<td><input name="myid" id="myid" placeholder="请输入采购单号" class="easyui-textbox easyui-validatebox" data-options="required:true" type="text"/></td>
 									<th>采购日期</th>
 									<td><input name="setupDate" id="setupDate" type="text"  class="easyui-textbox easyui-datetimebox" data-options="required:true"/></td>
-									<th>采购类型</th>
-									<td><input name="classId" id="classId" type="text" class="easyui-textbox easyui-validatebox" /><input name="className" id="className" type="hidden" /></td>
+									<th>交易状态</th>
+									<td><input name="isOngoing" id="isOngoing" type="text" /></td>
 									<th>批号</th>
 									<td><input id="batchId" name="batchId" type="text" class="easyui-textbox easyui-validatebox" /><input id="batchNo" name="batchNo" type="hidden"/></td>
 								 </tr>

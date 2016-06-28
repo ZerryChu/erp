@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.palmelf.ipms</groupId>
+	<groupId>com.palmelf</groupId>
 	<artifactId>erp2</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
@@ -272,7 +272,7 @@
 		</dependency>
 	</dependencies>
 	<build>
-		<finalName>erp2</finalName>
+		<finalName>erp</finalName>
 		<plugins>
 			<!-- 处理资源时使用UTF8编码 -->
 			<plugin>
@@ -325,14 +325,6 @@
 							<outputDirectory>target/generated-sources/hibernate3</outputDirectory>
 						</component>
 					</components>
-					<componentProperties>
-						<revengfile>src/main/resources/hibernate.reveng.xml</revengfile>
-						<!-- <propertyfile>src/main/resources/hibernate.properties</propertyfile> -->
-						<configurationfile>src/main/resources/hibernate.cfg.xml</configurationfile>
-						<packagename>com.palmelf.hr.bean</packagename>
-						<jdk5>true</jdk5>
-						<ejb3>false</ejb3>
-					</componentProperties>
 				</configuration>
 				<dependencies>
 					<dependency>

@@ -51,6 +51,7 @@ public class UserAction extends BaseAction implements ModelDriven<Users>
 	{
 		this.isCheckedIds = isCheckedIds;
 	}
+	
 	/**  
 	* 函数功能说明 TODO:查询所有用户
 	* Administrator修改者名字
@@ -142,6 +143,7 @@ public class UserAction extends BaseAction implements ModelDriven<Users>
 		OutputJson(getMessage(userService.delUsers(getModel().getUserId())));
 		return null;
 	}
+	
 	/**  
 	* 函数功能说明 TODO:查询用户拥有角色
 	* Administrator修改者名字
@@ -159,6 +161,7 @@ public class UserAction extends BaseAction implements ModelDriven<Users>
 		OutputJson(userService.findUsersRolesList(getModel().getUserId()));
 		return null;
 	}
+	
 	/**  
 	* 函数功能说明 TODO:保存用户分配的角色
 	* Administrator修改者名字

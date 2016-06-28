@@ -58,7 +58,6 @@ public class DbBackUpAction extends BaseAction implements ModelDriven<BackupSche
 		this.backupScheduleConfig = backupScheduleConfig;
 	}
 
-
 	/**  
 	* 函数功能说明 
 	* Administrator修改者名字

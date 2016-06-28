@@ -10,6 +10,7 @@ public class CaptchaFormAuthenticationFilter extends FormAuthenticationFilter
 {
 	public static final String DEFAULT_CAPTCHA_PARAM = "captcha"; 
 	private String captchaParam = DEFAULT_CAPTCHA_PARAM;
+	
 	public String getCaptchaParam()
 	{
 		return captchaParam;
@@ -21,9 +22,7 @@ public class CaptchaFormAuthenticationFilter extends FormAuthenticationFilter
 	protected String getCaptcha(ServletRequest request )
 	{
 		return WebUtils.getCleanParam(request, getCaptchaParam());
-
 	} 
-
 	protected CaptchaUsernamePasswordToken createToken(ServletRequest request, ServletResponse response )
 	{
 		String username = getUsername(request);

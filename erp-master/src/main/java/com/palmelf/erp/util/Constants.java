@@ -344,7 +344,7 @@ public class Constants {
 		}
 	}
 
-	public static String BASE_PATH = System.getProperty("erp");
+	public static String BASE_PATH = "/Users/zhuzirui/Downloads/erp-master/src/main/webapp/";// System.getProperty("erp");
 
 	public static String dbBackUp() {
 		// 生成临时备份文件
@@ -357,32 +357,40 @@ public class Constants {
 			if (!filePathSql.exists()) {
 				filePathSql.mkdir();
 			}
-			StringBuffer sbs = new StringBuffer();
-			sbs.append("mysqldump ");
-			sbs.append("-h 192.168.110.10 ");
-			sbs.append("--user=root");
-			sbs.append(" --password=fortune123");
-			sbs.append(" --lock-all-tables=true ");
-			sbs.append("--result-file=" + pathSql + File.separator);
-			sbs.append(sqlName + " ");
-			sbs.append(" --default-character-set=utf8 ");
-			sbs.append("ERP");
-			Runtime runtime = Runtime.getRuntime();
-			Process child = runtime.exec(sbs.toString());
-			// 读取备份数据并生成临时文件
-			InputStream in = child.getInputStream();
-			OutputStreamWriter writer = new OutputStreamWriter(
-					new FileOutputStream(pathSql), "utf8");
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					in, "utf8"));
-			String line = reader.readLine();
-			while (line != null) {
-				writer.write(line + "\n");
-				line = reader.readLine();
+			File sqlFile = new File(pathSql + File.separator + sqlName);
+			if (!sqlFile.exists()) {
+				sqlFile.createNewFile();
 			}
-			writer.flush();
+			StringBuffer sbs = new StringBuffer();
+			sbs.append("mysqldump");
+			sbs.append(" -h 127.0.0.1");
+			sbs.append(" --user=root");
+			sbs.append(" --password=486579");
+			sbs.append(" --lock-all-tables=true");
+			sbs.append(" --default-character-set=utf8");
+			sbs.append(" ERP");
+			sbs.append(" > " + pathSql + File.separator + sqlName);
+			/*
+				Runtime runtime = Runtime.getRuntime();
+				Process child = runtime.exec(sbs.toString());
+				// 读取备份数据并生成临时文件
+				InputStream in = child.getInputStream();
+				OutputStreamWriter writer = new OutputStreamWriter(
+						new FileOutputStream(pathSql), "utf8");
+				BufferedReader reader = new BufferedReader(new InputStreamReader(
+						in, "utf8"));
+				String line = reader.readLine();
+				while (line != null) {
+					writer.write(line + "\n");
+					line = reader.readLine();
+				}
+				writer.flush();
+			*/
+			// 调用Dao层API
+			
+			
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
 		return sqlName;
 	}

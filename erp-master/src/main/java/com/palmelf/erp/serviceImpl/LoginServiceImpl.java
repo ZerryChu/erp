@@ -58,7 +58,7 @@ public class LoginServiceImpl implements LoginService
 		{
 			Object[] objs=(Object[])object;
 			String id = String.valueOf(objs[0]);
-			if (objs[1]==null)
+			if (objs[1]==null) // pid == null
 			{
 				MenuModel menuModel=new MenuModel();
 				menuModel.setName(String.valueOf(objs[2]));

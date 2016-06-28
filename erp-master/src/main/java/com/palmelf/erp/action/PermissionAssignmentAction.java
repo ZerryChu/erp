@@ -33,6 +33,7 @@ public class PermissionAssignmentAction extends BaseAction implements
 	private static final long serialVersionUID = -7653440308109010857L;
 	private PermissionAssignmentService permissionAssignmentService;
 	private Integer id;
+	// role_ids
 	private String checkedIds;
 	private Role role;
 
@@ -216,7 +217,7 @@ public class PermissionAssignmentAction extends BaseAction implements
 
 	public String delRole() throws Exception {
 		OutputJson(getMessage(permissionAssignmentService
-				.persistenceRole(getModel().getRoleId())));
+				._persistenceRole(getModel().getRoleId())));
 		return null;
 	}
 

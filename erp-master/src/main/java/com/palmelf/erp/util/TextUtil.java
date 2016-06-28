@@ -10,7 +10,7 @@ import java.io.PrintWriter;
 
 public class TextUtil
 {
-	private static String path = "D:/";
+	private static String path = "/Users/zhuzirui/Download/erp-master/src/test/resources";
 	private static String filenameTemp;
 
 	public static boolean creatTxtFile(String name) throws IOException
@@ -27,7 +27,7 @@ public class TextUtil
 	}
 
 	@SuppressWarnings("unused")
-	public static boolean writeTxtFile(String newStr ) throws IOException
+	public static boolean writeTxtFile(String newStr) throws IOException
 	{
 
 		// 先读取原有文件内容，然后进行写入操作
@@ -94,9 +94,7 @@ public class TextUtil
 	}
 	public static void main(String[] args )
 	{
-		
-		
-		
+				
 		try
 		{
 			creatTxtFile("tet");

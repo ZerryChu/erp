@@ -100,6 +100,7 @@ public class ItemAction extends BaseAction implements ModelDriven<Item>
 		OutputJson(getMessage(itemService.addBrands(getModel().getName())));
 		return null;
 	}
+	
 	/**  
 	* 函数功能说明 
 	* Administrator修改者名字

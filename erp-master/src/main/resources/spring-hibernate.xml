@@ -76,8 +76,6 @@
 		<property name="hibernateSessionFactory" ref="sessionFactory" />
 		<property name="cacheManager" ref="shiroCacheManager" />
 		<property name="authenticationCacheName" value="shiroAuthorizationCache"></property>
-		<property name="development" value="${development}"></property>
-
 	</bean>
 	<bean id="simplePermFilter" class="com.palmelf.erp.shiro.PermissionsAuthorizationFilter"></bean>
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
@@ -94,18 +92,6 @@
 
 	<bean id="formAuthenticationFilter"
 		class="org.apache.shiro.web.filter.authc.FormAuthenticationFilter" />
-
-	<!-- 关于session的配置 -->
-	<!-- <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager"> 
-		<property name="sessionDAO" ref="sessionDAO" /> <property name="sessionListeners"> 
-		<set><bean class="com.palmelf.erp.listener.SessionHandler"/> </set> </property> <property 
-		name="sessionValidationScheduler" ref="sessionValidationScheduler" /> <property 
-		name="globalSessionTimeout" value="1800000"/> <property name="sessionValidationSchedulerEnabled" 
-		value="true"/> <property name="deleteInvalidSessions" value="true"/> </bean> 
-		<bean id="sessionValidationScheduler" class="org.apache.shiro.session.mgt.ExecutorServiceSessionValidationScheduler"> 
-		<property name="interval" value="1800000"/> </bean> <bean id="sessionDAO" 
-		class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO"> <property 
-		name="activeSessionsCacheName" value="shiro-activeSessionCache" /> </bean> -->
 
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" />
@@ -166,9 +152,6 @@
 			</list>
 		</property>
 
-		<!-- hbm方式配置 -->
-		<!-- <property name="mappingDirectoryLocations"> <list> <value>classpath:com/erp/model</value> 
-			</list> </property> -->
 	</bean>
 
 	<!-- 配置事务 -->
@@ -176,8 +159,10 @@
 		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
-	<!-- 注解方式配置事物 <tx:annotation-driven transaction-manager="transactionManager" 
-		/> -->
+	
+	<!-- 注解方式配置事物 
+		<tx:annotation-driven transaction-manager="transactionManager" 
+	/> -->
 
 	<!-- 拦截器方式配置事物 -->
 	<tx:advice id="transactionAdvice" transaction-manager="transactionManager">

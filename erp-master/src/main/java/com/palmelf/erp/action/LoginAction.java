@@ -24,7 +24,7 @@ import com.palmelf.erp.viewModel.Json;
 public class LoginAction extends BaseAction
 {	
 	private static final Logger logger = Logger.getLogger(LoginAction.class);
-	private static final long	serialVersionUID	= -6019556530071263499L;
+	private static final long	serialVersionUID = -6019556530071263499L;
 	private String userName;
 	private String password;
 	private String captcha;
@@ -47,6 +47,7 @@ public class LoginAction extends BaseAction
 	{
 		this.userMacAddr = userMacAddr;
 	}
+	
 	private LoginService loginService;
 	
 	public String getCaptcha()
@@ -113,7 +114,8 @@ public class LoginAction extends BaseAction
         } 
         catch (LockedAccountException lae) {
             json.setMessage(Constants.LOCKED_ACCOUNT_EXCEPTION);
-        }catch (IncorrectCaptchaException e) {
+        }
+        catch (IncorrectCaptchaException e) {
         	 json.setMessage(Constants.INCORRECT_CAPTCHA_EXCEPTION);
 		}
         catch (AuthenticationException ae) {
@@ -126,6 +128,7 @@ public class LoginAction extends BaseAction
         //token.clear();
 		return null;
 	}
+	
 	/**  
 	* 函数功能说明 TODO:用户登出
 	* Administrator修改者名字
@@ -146,6 +149,7 @@ public class LoginAction extends BaseAction
 		OutputJson(json);
 		return null;
 	}
+	
 	/**  
 	* 函数功能说明 TODO:查询用户所有权限菜单
 	* Administrator修改者名字

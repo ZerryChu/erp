@@ -31,10 +31,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					striped:true,
 					singleSelect:true,
 					columns : [ [ {field : 'myid',title : '客户单号',width : parseInt($(this).width()*0.2)},
-					              {field : 'className',title : '客户类型',width : parseInt($(this).width()*0.05),
-									formatter:function(value,row){
-					            			return "<font color=red>"+row.className+"</font>";  
-									}},
+					              {field : 'isOngoing',title : '交易状态',width : parseInt($(this).width()*0.05),
+										formatter:function(value,row){
+					            		  if("Y"==row.isOngoing)
+												return "<font color=green>交易中<font>";
+						            		  else
+						            			return "<font color=red>禁用<font>";  
+										}},
 					              {field : 'customerName',title : '客户名称',width : parseInt($(this).width()*0.15),align : 'left'},
 					              {field : 'customerMyid',title : '客户编码',width : parseInt($(this).width()*0.1),align : 'left'},
 					              {field : 'customerContact',title : '联系人',width : parseInt($(this).width()*0.1),align : 'left'},

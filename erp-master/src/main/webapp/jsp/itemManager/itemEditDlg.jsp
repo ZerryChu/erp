@@ -9,20 +9,7 @@
 			width:'auto',
 			height:$(this).height()-340
 		});
-		$("#image").xheditor({
-			width:$(this).width()-730,
-			height:$(this).height()-450,
-			tools : 'Img,About',
-			html5Upload : true,
-			upMultiple : 1,
-			upImgUrl : '${pageContext.request.contextPath}/bug/bugAction!upload.action',
-			upImgExt : 'jpg,jpeg,gif,png',
-			onUpload:function(rst){
-				$.each(rst,function(i,e){
-					$("#xheImgAlt").val(e.localfile);
-				});
-			}
-		});
+	
 		$("#cityId").combotree({
 			width:171,
 			url:"area/areaAction!findCities.action",
@@ -38,15 +25,6 @@
 		 	}
 		});
 		
-		$("#classId").combobox({
-			width:171,
-			url:"systemCode/systemCodeAction!findSystemCodeByType.action?codeMyid=customerClass",
-			valueField: 'codeId',
-			textField: 'name',
-			onSelect:function(value){
-				$("#className").val(value.name);
-			}
-		});
 		$("#brandId").combobox({
 			width:171,
 			url:"item/itemAction!findBrandList.action",
@@ -301,7 +279,7 @@
 									<th>货品编码</th>
 									<td><input name="myid" id="myid" type="text"  class="easyui-textbox easyui-validatebox" data-options="required:true"/></td>
 									<th>货品类别</th>
-									<td><input name="classId" id="classId" type="text" class="easyui-textbox easyui-validatebox" /><input name="className" id="className" type="hidden" /></td>
+									<td><input name="className" id="className" type="text" class="easyui-textbox easyui-validatebox" /></td>
 								 </tr>
 								 <tr>
 									<th>货品规格</th>
@@ -314,11 +292,8 @@
 								  <tr>
 									<th>产地</th>
 									<td><input id="cityId" name="cityId" type="text" class="easyui-textbox easyui-validatebox"/><input id="cityName" name="cityName" type="hidden"/><img src="extend/area.png" style="margin-left:2px;margin-bottom: -5px;cursor: pointer;" onclick="addAreaOpenDlg();"/></td>
-									<th>重量</th>
-									<td><input id="weight" name="weight " type="text" class="easyui-textbox easyui-validatebox"/></td>
-									 <th>重量单位</th>
-									<td><input id="maund" name="maund" type="text" class="easyui-textbox easyui-validatebox"/></td>
-								 </tr>
+									<th>数量</th>
+									<td><input id="amount" name="amount" type="text" class="easyui-textbox easyui-validatebox"/></td>
 								 <tr>
 									<th>品牌</th>
 									<td><input name="brandId" id="brandId" type="text" class="easyui-textbox easyui-validatebox" /><input name="brandName" id="brandName" type="hidden" /><img src="extend/area.png" style="margin-left:2px;margin-bottom: -5px;cursor: pointer;" onclick="addBrandOpenDlg();"/></td>
@@ -377,12 +352,6 @@
 									<td><input name="retailPrice" id="retailPrice" type="text"  class="easyui-textbox easyui-validatebox" /></td>
 								 </tr>
 						</table>
-						</fieldset>
-				</div>
-				<div title="货品图片" data-options="iconCls:'icon-help'" style="padding:10px">
-						<fieldset>
-							<legend>货品图片编辑</legend>
-							<textarea class="easyui-textbox" id="image" name="image"></textarea>
 						</fieldset>
 				</div>
 		  </div>

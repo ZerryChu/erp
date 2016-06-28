@@ -21,23 +21,16 @@ import org.hibernate.SessionFactory;
 import com.palmelf.erp.model.Users;
 import com.palmelf.erp.util.Constants;
 
-
 public class MyShiroRealm extends AuthorizingRealm {
 	// 用于获取用户信息及用户权限信息的业务接口
 	private SessionFactory hibernateSessionFactory;
-	private boolean development = false;
 
 	public SessionFactory getSessionFactory() {
 		return hibernateSessionFactory;
 	}
 
-	public void setHibernateSessionFactory(
-			SessionFactory hibernateSessionFactory) {
+	public void setHibernateSessionFactory(SessionFactory hibernateSessionFactory) {
 		this.hibernateSessionFactory = hibernateSessionFactory;
-	}
-
-	public void setDevelopment(boolean development) {
-		this.development = development;
 	}
 
 	@SuppressWarnings("unused")
@@ -46,12 +39,10 @@ public class MyShiroRealm extends AuthorizingRealm {
 	}
 
 	@SuppressWarnings("rawtypes")
-	protected AuthorizationInfo doGetAuthorizationInfo(
-			PrincipalCollection principals) {
+	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
 		// String username = (String)
 		// principals.fromRealm(getName()).iterator().next();
-		ShiroUser shiroUser = (ShiroUser) principals.fromRealm(getName())
-				.iterator().next();
+		ShiroUser shiroUser = (ShiroUser) principals.fromRealm(getName()).iterator().next();
 		String username = shiroUser.getAccount();
 		if (username != null) {
 			SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
@@ -63,8 +54,7 @@ public class MyShiroRealm extends AuthorizingRealm {
 				sql = "SELECT p.PERMISSION_ID,p.MYID FROM PERMISSION AS p\n"
 						+ "where p.STATUS='A' and p.TYPE='O' and p.ISUSED='Y'";
 			} else {
-				sql = "SELECT DISTINCT rp.PERMISSION_ID,p.MYID FROM\n"
-						+ "ROLE_PERMISSION AS rp\n"
+				sql = "SELECT DISTINCT rp.PERMISSION_ID,p.MYID FROM\n" + "ROLE_PERMISSION AS rp\n"
 						+ "INNER JOIN ROLE AS r ON rp.ROLE_ID = r.ROLE_ID\n"
 						+ "INNER JOIN USER_ROLE AS ur ON rp.ROLE_ID = ur.ROLE_ID\n"
 						+ "INNER JOIN USERS AS u ON u.USER_ID = ur.USER_ID\n"
@@ -72,8 +62,7 @@ public class MyShiroRealm extends AuthorizingRealm {
 						+ "WHERE rp.STATUS='A' and r.STATUS='A' and ur.STATUS='A' and u.STATUS='A' and p.STATUS='A' and p.TYPE='O' and p.ISUSED='Y'\n"
 						+ "and u.NAME ='" + username + "'";
 			}
-			List perList = this.getSessionFactory().getCurrentSession()
-					.createSQLQuery(sql).list();
+			List perList = this.getSessionFactory().getCurrentSession().createSQLQuery(sql).list();
 			if (perList != null && perList.size() != 0) {
 				for (Object object : perList) {
 					Object[] obj = (Object[]) object;
@@ -86,23 +75,20 @@ public class MyShiroRealm extends AuthorizingRealm {
 	}
 
 	// 获取认证信息
-	protected AuthenticationInfo doGetAuthenticationInfo(
-			AuthenticationToken authcToken) throws AuthenticationException {
+	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken)
+			throws AuthenticationException {
 		CaptchaUsernamePasswordToken token = (CaptchaUsernamePasswordToken) authcToken;
 		// 通过表单接收的用户名
 		String username = token.getUsername();
-		if (username != null && !"".equals(username)
-				&& doCaptchaValidate(token)) {
+		if (username != null && !"".equals(username) && doCaptchaValidate(token)) {
 			SessionFactory s = this.getSessionFactory();
 			String hql = "from Users t where t.status='A' and t.name=:name";
-			Users users = (Users) s.getCurrentSession().createQuery(hql)
-					.setParameter("name", username).uniqueResult();
+			Users users = (Users) s.getCurrentSession().createQuery(hql).setParameter("name", username).uniqueResult();
 			if (users != null) {
 				Subject subject = SecurityUtils.getSubject();
 				subject.getSession().setAttribute(Constants.SHIRO_USER,
 						new ShiroUser(users.getUserId(), users.getAccount()));
-				return new SimpleAuthenticationInfo(new ShiroUser(
-						users.getUserId(), users.getAccount()),
+				return new SimpleAuthenticationInfo(new ShiroUser(users.getUserId(), users.getAccount()),
 						users.getPassword(), getName());
 			}
 		}
@@ -112,17 +98,14 @@ public class MyShiroRealm extends AuthorizingRealm {
 	/**
 	 * 更新用户授权信息缓存.
 	 */
-
 	public void clearCachedAuthorizationInfo(String principal) {
-		SimplePrincipalCollection principals = new SimplePrincipalCollection(
-				principal, getName());
+		SimplePrincipalCollection principals = new SimplePrincipalCollection(principal, getName());
 		clearCachedAuthorizationInfo(principals);
 	}
 
 	/**
 	 * 清除所有用户授权信息缓存.
 	 */
-
 	public void clearAllCachedAuthorizationInfo() {
 		Cache<Object, AuthorizationInfo> cache = getAuthorizationCache();
 		if (cache != null) {
@@ -134,22 +117,11 @@ public class MyShiroRealm extends AuthorizingRealm {
 
 	// 验证码校验
 	protected boolean doCaptchaValidate(CaptchaUsernamePasswordToken token) {
-		/*
-		String captcha = (String) ServletActionContext
-				.getRequest()
-				.getSession()
-				.getAttribute(
-						com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY);
-		if (development) {
-			System.out.println("已经启用了调试模式,请在生产环境关闭!!");
-			if (captcha != null && "1234".equalsIgnoreCase(token.getCaptcha())) {
-				return true;
-			}
-		}
+		String captcha = (String) ServletActionContext.getRequest().getSession()
+				.getAttribute(com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY);
 		if (captcha != null && !captcha.equalsIgnoreCase(token.getCaptcha())) {
 			throw new IncorrectCaptchaException("验证码错误！");
 		}
-		*/
 		return true;
 	}
 }

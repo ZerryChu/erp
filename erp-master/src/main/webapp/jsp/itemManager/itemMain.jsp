@@ -9,12 +9,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html>
   <head>
     <base href="<%=basePath%>">
-    <title>商品管理</title>
+    <title>库存管理</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
 	<jsp:include page="../../layout/script.jsp"></jsp:include>
 	<script type="text/javascript">
 			var $dg;
@@ -32,11 +31,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					singleSelect:true,
 					columns : [ [ {field : 'name',title : '货品名称',width : parseInt($(this).width()*0.1)},
 					              {field : 'myid',title : '货品编码',width : parseInt($(this).width()*0.1)},
-					              {field : 'className',title : '类别',width : parseInt($(this).width()*0.05)},
 					              {field : 'sepc',title : '规格',width : parseInt($(this).width()*0.1)},
+					              {field : 'amount',title : '数量',width : parseInt($(this).width()*0.05),align : 'left'},
 					              {field : 'unit',title : '单位',width : parseInt($(this).width()*0.05),align : 'left'},
-					              {field : 'weight',title : '重量',width : parseInt($(this).width()*0.05),align : 'left'},
-					              {field : 'cityName',title : '产地',width : parseInt($(this).width()*0.1),align : 'left'},
+								  {field : 'cityName',title : '产地',width : parseInt($(this).width()*0.1),align : 'left'},
 					              {field : 'brandName',title : '品牌',width :parseInt($(this).width()*0.05),align : 'left'},
 					              {field : 'taxNo',title : '税率',width : parseInt($(this).width()*0.05),align : 'left'},
 					              {field : 'description',title : '备注',width : parseInt($(this).width()*0.3),align : 'left'}
@@ -166,7 +164,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   		<div class="well well-small" style="margin-left: 5px;margin-top: 5px">
 				<span class="badge">提示</span>
 				<p>
-					在此你可以对<span class="label-info"><strong>物料</strong></span>进行编辑!
+					在此你可以对<span class="label-info"><strong>库存信息</strong></span>进行编辑!
 				</p>
 		</div>
 		<div id="tb" style="padding:2px 0">

@@ -32,13 +32,14 @@ import com.palmelf.erp.util.XMLFactory;
 @Service("dbBackUpService")
 public class DbBackUpServiceImpl implements DbBackUpService {
 	org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(this.getClass());
+	
 	@SuppressWarnings("rawtypes")
 	private PublicDao publicDao;
 	private static SchedulerFactory sf = new StdSchedulerFactory();
 	private JobDetail backupTask = new JobDetail("task", "taskGroup", BackupScheduleServiceImpl.class);
 	private XMLFactory xmlFactory = new XMLFactory(BackupScheduleConfig.class);
-	private static String basePath = System.getProperty("erp");
-	private static String xmlPath = basePath +File.separator + "configXml" + File.separator + "dbBackUpInit.xml";
+	private static String basePath = "/Users/zhuzirui/Downloads/erp-master/src/main/webapp/"; // System.getProperty("erp");
+	private static String xmlPath = basePath + File.separator + "configXml" + File.separator + "dbBackUpInit.xml";
 
 	@SuppressWarnings("rawtypes")
 	@Autowired
@@ -71,7 +72,7 @@ public class DbBackUpServiceImpl implements DbBackUpService {
 		try {
 			return xmlFactory.unmarshal(new FileInputStream(new File(xmlPath)));
 		} catch (FileNotFoundException e) {
-			logger.error("xml[{}]文件未找到", xmlPath);
+			logger.error("xml文件未找到", xmlPath);
 		}
 		return null;
 	}
@@ -120,7 +121,8 @@ public class DbBackUpServiceImpl implements DbBackUpService {
 	 * 
 	 * @return
 	 * 
-	 * @see com.palmelf.erp.service.DbBackUpService#schedule(int, int, java.lang.String)
+	 * @see com.palmelf.erp.service.DbBackUpService#schedule(int, int,
+	 * java.lang.String)
 	 */
 	public String schedule(int hour, int minute, String scheduleEnabled) {
 		BackupScheduleConfig scheduleConfig = getBackupScheduleConfig();
@@ -187,7 +189,8 @@ public class DbBackUpServiceImpl implements DbBackUpService {
 	 * 
 	 * @return
 	 * 
-	 * @see com.palmelf.erp.service.DbBackUpService#findLogsAllList(java.util.Map,
+	 * @see
+	 * com.palmelf.erp.service.DbBackUpService#findLogsAllList(java.util.Map,
 	 * com.palmelf.erp.util.PageUtil)
 	 */
 	public List<Log> findLogsAllList(Map<String, Object> map, PageUtil pageUtil) {

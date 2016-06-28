@@ -31,9 +31,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					striped:true,
 					singleSelect:true,
 					columns : [ [ {field : 'myid',title : '采购单号',width : parseInt($(this).width()*0.2)},
-					              {field : 'className',title : '采购类型',width : parseInt($(this).width()*0.05),
-									formatter:function(value,row){
-					            			return "<font color=red>"+row.className+"</font>";  
+					              {field : 'isOngoing',title : '交易状态',width : parseInt($(this).width()*0.05),
+					            	formatter:function(value,row){
+				            		  if("Y"==row.isOngoing)
+											return "<font color=green>交易中<font>";
+					            		  else
+					            			return "<font color=red>禁用<font>";  
 									}},
 					              {field : 'suplierName',title : '供应商名称',width : parseInt($(this).width()*0.15),align : 'left'},
 					              {field : 'suplierMyid',title : '供应商编码',width : parseInt($(this).width()*0.1),align : 'left'},

@@ -55,7 +55,6 @@ public class SystemInfo implements java.io.Serializable
 		this.modifyer = modifyer;
 	}
 
-	// Property accessors
 	@Id
 	@GeneratedValue
 	@Column(name = "SYSTEM_ID", unique = true, nullable = false)

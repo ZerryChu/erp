@@ -188,9 +188,9 @@
 	<div type="closeAll">关闭所有</div>
 </div>
 <div id="theme" class="easyui-menu" style="width:120px;display: none">  
-		    <div id="default" data-options="iconCls:'icon-save'">default</div>  
+		    <div id="lightblue" data-options="iconCls:'icon-save'">default</div>  
 		    <div id="black">black</div> 
 		    <div id="bootstrap" data-options="iconCls:'icon-save'">bootstrap</div>  
-		    <div id="gray" data-options="iconCls:'icon-save'">gray</div>  
+		    <div id="default" data-options="iconCls:'icon-save'">gray</div>  
 		    <div id="metro" data-options="iconCls:'icon-save'">metro</div>  
 </div>

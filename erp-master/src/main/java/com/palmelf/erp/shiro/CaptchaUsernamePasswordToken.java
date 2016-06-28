@@ -28,4 +28,5 @@ public class CaptchaUsernamePasswordToken extends UsernamePasswordToken
 	{
 		super();
 	}
+
 }

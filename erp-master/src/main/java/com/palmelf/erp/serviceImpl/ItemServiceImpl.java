@@ -62,7 +62,6 @@ public class ItemServiceImpl implements ItemService
 		if (list!=null&&list.size()!=0)
 		{
 			Item item = list.get(0);
-			item.setImage(null);//不需要图片数据
 			if (suplierId!=null&&!"".equals(suplierId))
 			{
 				String sql="SELECT t.PRICE  from ORDER_PURCHASE_LINE t LEFT JOIN ORDER_PURCHASE op on t.ORDER_PURCHASE_ID=op.ORDER_PURCHASE_ID where op.SUPLIER_ID="+suplierId+"  and   t.MYID='"+myid+"' and   t.LASTMOD=(\n" +
@@ -116,6 +115,7 @@ public class ItemServiceImpl implements ItemService
 			item.setStatus(Constants.PERSISTENCE_STATUS);
 			publicDao.save(item);
 		}else {
+			System.out.println(item.getAmount());
 			item.setLastmod(new Date());
 			item.setModifyer(userId);
 			publicDao.update(item);

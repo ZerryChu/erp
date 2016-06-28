@@ -20,6 +20,7 @@ public class OrderSaleServiceImpl implements OrderSaleService
 {
 	@SuppressWarnings("rawtypes")
 	private PublicDao publicDao;
+	
 	@SuppressWarnings("rawtypes")
 	@Autowired
 	public void setPublicDao(PublicDao publicDao )

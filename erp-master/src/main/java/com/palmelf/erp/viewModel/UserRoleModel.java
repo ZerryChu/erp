@@ -4,6 +4,7 @@ public class UserRoleModel
 {
 	private Integer roleId;
 	private Integer userId;
+	
 	public Integer getRoleId()
 	{
 		return roleId;

@@ -15,7 +15,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
 	<jsp:include page="layout/script.jsp"></jsp:include>
 	<script type="text/javascript">
 		$(function(){
@@ -82,7 +81,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div id="menuAccordion"></div>
 	</div> 
 	<div data-options="region:'south',border:false" style="height:25px;background:#EEE;padding:5px;" href="layout/south.jsp"></div>
-	<div data-options="region:'center',plain:true,title:'欢迎使用ERP'" style="overflow: hidden;"  href="layout/center.jsp"></div>
-<%--	<jsp:include page="user/loginAndReg.jsp"></jsp:include>--%>
+	<div data-options="region:'center',plain:true,title:'欢迎使用本系统'" style="overflow: hidden;"  href="layout/center.jsp"></div>
 </body>
 </html>

@@ -82,6 +82,7 @@ public class PublicDaoImpl<T> implements PublicDao<T> {
 		return q.list();
 	}
 	
+	// 带分页查询
 	public List<T> find(String hql, Map<String, Object> params, Integer page, Integer rows) {
 		if (page == null || page < 1) {
 			page = 1;

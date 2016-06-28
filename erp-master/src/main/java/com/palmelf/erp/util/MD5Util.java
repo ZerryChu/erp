@@ -62,17 +62,5 @@ public class MD5Util
 	    	//DigestUtils.md5Hex(target);
 	        return  null;
 	    }
-	    /**
-	     * 可以比较两个文件是否内容相等
-	     * @param args 
-	     */
-	    public static void main(String[] args){
-	        File newFile=new File("D:/files/paoding-analysis.jar.new");
-	        File oldFile=new File("D:/files/paoding-analysis.jar.old");
-	        String s1=md5(newFile);
-	        String s2=md5(oldFile);
-	        System.out.println(s1.equals(s2));
-	        System.out.println(s1);
-	        System.out.println(s2);
-	    }
+	    
 }
