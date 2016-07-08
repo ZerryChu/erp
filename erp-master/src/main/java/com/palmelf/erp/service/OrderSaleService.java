@@ -19,5 +19,7 @@ public interface OrderSaleService
 	List<OrderSale> findOrderSaleList(Map<String, Object> param, PageUtil pageUtil );
 
 	List<OrderSaleLine> findOrderSaleLineList(Integer orderSaleId );
+	
+	boolean completeTransaction(int orderSaleId);
 
 }

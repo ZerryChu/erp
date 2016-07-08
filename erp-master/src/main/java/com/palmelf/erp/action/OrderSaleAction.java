@@ -136,6 +136,12 @@ public class OrderSaleAction extends BaseAction implements ModelDriven<OrderSale
 		return null;
 	}
 	
+	public String completeTransaction() {
+		int orderSaleId = getModel().getOrderSaleId();
+		OutputJson(getMessage(orderSaleService.completeTransaction(orderSaleId)));
+		return null;
+	}
+	
 	public OrderSale getModel()
 	{
 		if (null==orderSale)

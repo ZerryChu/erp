@@ -357,10 +357,12 @@ public class Constants {
 			if (!filePathSql.exists()) {
 				filePathSql.mkdir();
 			}
-			File sqlFile = new File(pathSql + File.separator + sqlName);
-			if (!sqlFile.exists()) {
-				sqlFile.createNewFile();
-			}
+			/*
+				File sqlFile = new File(pathSql + File.separator + sqlName);
+				if (!sqlFile.exists()) {
+					sqlFile.createNewFile();
+				}
+			*/
 			StringBuffer sbs = new StringBuffer();
 			sbs.append("mysqldump");
 			sbs.append(" -h 127.0.0.1");
@@ -370,25 +372,20 @@ public class Constants {
 			sbs.append(" --default-character-set=utf8");
 			sbs.append(" ERP");
 			sbs.append(" > " + pathSql + File.separator + sqlName);
-			/*
-				Runtime runtime = Runtime.getRuntime();
-				Process child = runtime.exec(sbs.toString());
-				// 读取备份数据并生成临时文件
-				InputStream in = child.getInputStream();
-				OutputStreamWriter writer = new OutputStreamWriter(
-						new FileOutputStream(pathSql), "utf8");
-				BufferedReader reader = new BufferedReader(new InputStreamReader(
-						in, "utf8"));
-				String line = reader.readLine();
-				while (line != null) {
-					writer.write(line + "\n");
-					line = reader.readLine();
-				}
-				writer.flush();
-			*/
-			// 调用Dao层API
-			
-			
+			Runtime runtime = Runtime.getRuntime();
+			Process child = runtime.exec(sbs.toString());
+			// 读取备份数据并生成临时文件
+			InputStream in = child.getInputStream();
+			OutputStreamWriter writer = new OutputStreamWriter(
+     				new FileOutputStream(pathSql), "utf8");
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					in, "utf8"));
+			String line = reader.readLine();
+			while (line != null) {
+				writer.write(line + "\n");
+				line = reader.readLine();
+			}
+			writer.flush();			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -36,7 +36,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				            		  if("Y"==row.isOngoing)
 											return "<font color=green>交易中<font>";
 					            		  else
-					            			return "<font color=red>禁用<font>";  
+					            			return "<font color=red>交易完成<font>";  
 									}},
 					              {field : 'suplierName',title : '供应商名称',width : parseInt($(this).width()*0.15),align : 'left'},
 					              {field : 'suplierMyid',title : '供应商编码',width : parseInt($(this).width()*0.1),align : 'left'},
@@ -129,6 +129,40 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					});
 				}
 			}
+			
+			// 交易完成
+			function deal() {
+				var row = $dg.datagrid('getSelected');
+				if(row){
+					var rowIndex = $dg.datagrid('getRowIndex', row);
+					$.ajax({
+						url:"orderPurchase/orderPurchaseAction!completeTransaction.action",
+						data: "orderPurchaseId="+row.orderPurchaseId,
+						success: function(rsp){
+							if (rsp.status == true) {
+								parent.$.messager.show({
+									title : '操作成功',
+									msg : '交易完成，相关账目已更新',
+									timeout : 1000 * 4
+								});
+							} else {
+								parent.$.messager.show({
+									title : '操作失败',
+									msg : '交易结果无法再次提交',
+									timeout : 1000 * 4
+								});
+							}
+						}
+					});  
+				} else {
+					parent.$.messager.show({
+						title : "提示",
+						msg :"请选择一行记录!",
+						timeout : 1000 * 2
+					});
+				}
+			}
+			
 			//弹窗增加
 			function addRowsOpenDlg() {
 				parent.$.modalDialog({
@@ -192,6 +226,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</shiro:hasPermission>
 						<shiro:hasPermission name="projectDel">
 							<a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="delRows();">删除</a>
+						</shiro:hasPermission>
+						<!--  create projectDeal -->
+						<shiro:hasPermission name="projectDel">
+							<a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="deal();">完成交易</a>
 						</shiro:hasPermission>
 					</td>
 					<td style="padding-left:2px">

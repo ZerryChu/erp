@@ -20,4 +20,6 @@ public interface OrderPurchaseService
 
 	List<OrderPurchaseLine> findPurchaseOrderLineList(Integer orderPurchaseId );
 
+	boolean completeTransaction(int orderPurchaseId);
+
 }

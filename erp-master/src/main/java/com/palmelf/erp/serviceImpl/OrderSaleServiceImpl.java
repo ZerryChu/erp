@@ -1,6 +1,7 @@
 package com.palmelf.erp.serviceImpl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.palmelf.erp.dao.PublicDao;
+import com.palmelf.erp.model.Amount;
+import com.palmelf.erp.model.Item;
+import com.palmelf.erp.model.ItemInfo;
 import com.palmelf.erp.model.OrderSale;
 import com.palmelf.erp.model.OrderSaleLine;
 import com.palmelf.erp.service.OrderSaleService;
@@ -62,6 +66,7 @@ public class OrderSaleServiceImpl implements OrderSaleService
 		Integer userId=Constants.getCurrendUser().getUserId();
 		if (c.getOrderSaleId()==null||"".equals(c.getOrderSaleId()))
 		{
+			c.setIsOngoing("Y");
 			c.setCreated(new Date());
 			c.setLastmod(new Date());
 			c.setCreater(userId);
@@ -144,6 +149,33 @@ public class OrderSaleServiceImpl implements OrderSaleService
 			cus.setStatus(Constants.PERSISTENCE_DELETE_STATUS);
 			publicDao.deleteToUpdate(cus);
 		}
+		return true;
+	}
+
+	@Override
+	public boolean completeTransaction(int orderSaleId) {
+		// TODO Auto-generated method stub
+		OrderSale orderSaleInfo = (OrderSale) publicDao.find("from OrderSale o where o.orderSaleId = " + orderSaleId).get(0);
+		if (orderSaleInfo == null || orderSaleInfo.getStatus().equals("I") || orderSaleInfo.getIsOngoing().equals("N")) {
+			return false;
+		} else
+			orderSaleInfo.setIsOngoing("N");
+		String hql="from OrderSaleLine t where t.status='A' and t.orderSaleId="+orderSaleId;
+		List<OrderSaleLine> orderSaleLines = publicDao.find(hql);
+		double amount = 0;
+		for (int i = 0;i < orderSaleLines.size(); i++) {
+			OrderSaleLine orderSale = orderSaleLines.get(i);
+			Item item = (Item) publicDao.find("from Item i where i.itemId = " + orderSale.getItemId()).get(0);
+			item.setAmount(item.getAmount() - orderSale.getOrderQty());
+			ItemInfo itemInfo = (ItemInfo) publicDao.find("from ItemInfo i where i.id = " + orderSale.getItemId()).get(0);
+			itemInfo.setExport(itemInfo.getExport() + orderSale.getOrderQty());
+			itemInfo.setNumber(itemInfo.getNumber() - orderSale.getOrderQty());
+			amount += orderSale.getAmount();
+		}
+		Calendar calendar = Calendar.getInstance();
+		Amount totalAmount = (Amount) publicDao.find("from Amount a where a.month = " + (calendar.getTime().getMonth() + 1)).get(0);
+		totalAmount.setGet(totalAmount.getGet() + amount);
+		publicDao.flush();
 		return true;
 	}
 }

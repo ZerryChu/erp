@@ -126,6 +126,12 @@ public class OrderPurchaseAction extends BaseAction implements ModelDriven<Order
 		return null;
 	}
 	
+	public String completeTransaction() {
+		int orderPurchaseId = getModel().getOrderPurchaseId();
+		OutputJson(getMessage(orderPurchaseService.completeTransaction(orderPurchaseId)));
+		return null;
+	}
+	
 	public OrderPurchase getModel()
 	{
 		if (null==orderPurchase)

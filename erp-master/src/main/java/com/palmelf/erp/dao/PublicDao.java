@@ -151,4 +151,5 @@ public interface PublicDao<T>
 
 	void deleteToUpdate(T o );
 
+	void flush();
 }

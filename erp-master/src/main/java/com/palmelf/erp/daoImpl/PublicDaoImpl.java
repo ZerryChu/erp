@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.plaf.metal.MetalBorders.Flush3DBorder;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -27,13 +29,6 @@ public class PublicDaoImpl<T> implements PublicDao<T> {
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
-	//注册监听器
-	/*@PostConstruct
-	public void registerListeners() {
-	    EventListenerRegistry registry = ((SessionFactoryImpl) sessionFactory).getServiceRegistry().getService(EventListenerRegistry.class);
-	    registry.getEventListenerGroup(EventType.POST_COMMIT_INSERT).appendListener(new PostInsert());
-	    registry.getEventListenerGroup(EventType.POST_COMMIT_UPDATE).appendListener(new PostUpdate());
-	}*/
 
 	private Session getCurrentSession() {
 		return sessionFactory.getCurrentSession();
@@ -141,4 +136,9 @@ public class PublicDaoImpl<T> implements PublicDao<T> {
 		}
 		return q.executeUpdate();
 	}
+	
+	public void flush() {
+		this.getCurrentSession().flush();
+	}
+	
 }

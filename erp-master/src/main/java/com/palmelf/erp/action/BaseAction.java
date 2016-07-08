@@ -162,9 +162,9 @@ public class BaseAction extends ActionSupport {
 		Json json = new Json();
 		if (flag) {
 			json.setStatus(true);
-			json.setMessage("数据更新成功！");
+			json.setMessage("操作成功！");
 		} else {
-			json.setMessage("提交失败了！");
+			json.setMessage("操作失败了！");
 		}
 		return json;
 	}
